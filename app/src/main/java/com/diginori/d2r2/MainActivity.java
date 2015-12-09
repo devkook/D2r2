@@ -117,6 +117,12 @@ public class MainActivity extends AppCompatActivity {
         say("GOOD BYE");
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        say("I am sleepy");
+    }
+
     public void onClick(View v){
         changeImg();
         say(words[ri]);
