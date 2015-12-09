@@ -1,16 +1,24 @@
 package com.diginori.d2r2;
 
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
+
+    ImageView robot_face;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        robot_face = (ImageView) findViewById(R.id.imageView);
     }
 
     @Override
@@ -33,5 +41,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onClick(View v){
+        robot_face.setBackground(getImg(R.mipmap.robotface_red));
+    }
+
+    private Drawable getImg(int id) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return getResources().getDrawable(id, this.getTheme());
+        } else {
+            return getResources().getDrawable(id);
+        }
     }
 }

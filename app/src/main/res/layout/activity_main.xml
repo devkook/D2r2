@@ -13,5 +13,6 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:background="@mipmap/robotface"
-        android:adjustViewBounds="false" />
+        android:adjustViewBounds="false"
+        android:onClick="onClick" />
 </RelativeLayout>
