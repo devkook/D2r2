@@ -42,8 +42,14 @@ public class MainActivity extends AppCompatActivity {
         mTask = new TimerTask() {
             @Override
             public void run() {
-                changeImg();
-                Log.i("i" , "HA");
+               runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        changeImg();
+                        Log.i("i", "HA");
+                    }
+                });
+
             }
         };
 
