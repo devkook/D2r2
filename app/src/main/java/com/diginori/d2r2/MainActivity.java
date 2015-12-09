@@ -4,7 +4,9 @@ import android.annotation.TargetApi;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +19,9 @@ public class MainActivity extends AppCompatActivity {
 
     ImageView robot_face;
     int[] robots;
+
+    private Handler mHandler;
+    private Runnable mRunnable;
 
     private TimerTask mTask;
     private Timer mTimer;
@@ -38,12 +43,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 changeImg();
+                Log.i("i" , "HA");
             }
         };
 
         mTimer = new Timer();
-
-        mTimer.schedule(mTask, 5000);
+        mTimer.schedule(mTask, 0, 777);
     }
 
     @Override
@@ -80,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
     int ri = 0;
     private Drawable getImg() {
+        Log.i("RI:",ri + "");
         ri = ri + 1;
         if(ri >= robots.length){
             ri = 0;
