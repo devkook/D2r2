@@ -43,12 +43,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        changeImg();
-                        Log.i("i", "HA");
-                    }
-                });
+                   @Override
+                   public void run() {
+                       changeImg();
+                       Log.i("i", "HA");
+                   }
+               });
 
             }
         };
@@ -91,11 +91,11 @@ public class MainActivity extends AppCompatActivity {
 
     int ri = 0;
     private Drawable getImg() {
-        Log.i("RI:",ri + "");
         ri = ri + 1;
         if(ri >= robots.length){
             ri = 0;
         }
+        Log.i("RI:",ri + "");
         int id = robots[ri];
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
