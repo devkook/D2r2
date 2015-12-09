@@ -1,5 +1,6 @@
 package com.diginori.d2r2;
 
+import android.annotation.TargetApi;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 public class MainActivity extends AppCompatActivity {
 
     ImageView robot_face;
+    int[] robots;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +21,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         robot_face = (ImageView) findViewById(R.id.imageView);
+
+        robots = new int[4];
+        robots[0] = R.mipmap.robotface;
+        robots[1] = R.mipmap.robotface_redeye;
+        robots[2] = R.mipmap.robotface_redenm;
+        robots[3] = R.mipmap.robotface_red;
     }
 
     @Override
@@ -43,13 +51,21 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void onClick(View v){
-        robot_face.setBackground(getImg(R.mipmap.robotface_red));
+        robot_face.setBackground(getImg());
     }
 
-    private Drawable getImg(int id) {
+    int ri = 0;
+    private Drawable getImg() {
+        ri = ri + 1;
+        if(ri >= robots.length){
+            ri = 0;
+        }
+        int id = robots[ri];
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            return getResources().getDrawable(id, this.getTheme());
+            return getResources().getDrawable(id, getTheme());
         } else {
             return getResources().getDrawable(id);
         }
