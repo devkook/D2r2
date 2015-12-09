@@ -33,11 +33,11 @@ public class MainActivity extends AppCompatActivity {
 
         robot_face = (ImageView) findViewById(R.id.imageView);
 
-        robots = new int[4];
+        robots = new int[3];
         robots[0] = R.mipmap.robotface;
         robots[1] = R.mipmap.robotface_redeye;
         robots[2] = R.mipmap.robotface_redenm;
-        robots[3] = R.mipmap.robotface_red;
+//        robots[3] = R.mipmap.robotface_red;
 
         mTask = new TimerTask() {
             @Override
