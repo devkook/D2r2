@@ -10,10 +10,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class MainActivity extends AppCompatActivity {
 
     ImageView robot_face;
     int[] robots;
+
+    private TimerTask mTask;
+    private Timer mTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +33,17 @@ public class MainActivity extends AppCompatActivity {
         robots[1] = R.mipmap.robotface_redeye;
         robots[2] = R.mipmap.robotface_redenm;
         robots[3] = R.mipmap.robotface_red;
+
+        mTask = new TimerTask() {
+            @Override
+            public void run() {
+                changeImg();
+            }
+        };
+
+        mTimer = new Timer();
+
+        mTimer.schedule(mTask, 5000);
     }
 
     @Override
@@ -51,8 +68,13 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+
     public void onClick(View v){
+        changeImg();
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    private void changeImg() {
         robot_face.setBackground(getImg());
     }
 
