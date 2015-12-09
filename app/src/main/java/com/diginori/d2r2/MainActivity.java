@@ -4,7 +4,7 @@ import android.annotation.TargetApi;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
+import java.util.HashMap;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -19,12 +21,12 @@ public class MainActivity extends AppCompatActivity {
 
     ImageView robot_face;
     int[] robots;
-
-    private Handler mHandler;
-    private Runnable mRunnable;
+    String[] words;
 
     private TimerTask mTask;
     private Timer mTimer;
+
+    TextToSpeech tts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,25 @@ public class MainActivity extends AppCompatActivity {
         robots[1] = R.mipmap.robotface_redeye;
         robots[2] = R.mipmap.robotface_redenm;
 //        robots[3] = R.mipmap.robotface_red;
+
+        words = new String[5];
+
+
+
+
+        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR) {
+                    tts.setLanguage(Locale.CHINA);
+                    Log.i("TTS", "SET");
+                }else {
+                    Log.e("TTS", "ERR");
+                }
+            }
+        });
+
+        say("HI");
 
         mTask = new TimerTask() {
             @Override
@@ -54,7 +75,9 @@ public class MainActivity extends AppCompatActivity {
         };
 
         mTimer = new Timer();
-        mTimer.schedule(mTask, 0, 777);
+        mTimer.schedule(mTask, 0, 10000);
+
+
     }
 
     @Override
@@ -82,6 +105,28 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClick(View v){
         changeImg();
+        say("BANANA");
+    }
+
+    private void say(String text) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ttsGreater21(text);
+        } else {
+            ttsUnder20(text);
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    private void ttsUnder20(String text) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "MessageId");
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, map);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void ttsGreater21(String text) {
+        String utteranceId=this.hashCode() + "";
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, utteranceId);
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
