@@ -35,14 +35,17 @@ public class MainActivity extends AppCompatActivity {
 
         robot_face = (ImageView) findViewById(R.id.imageView);
 
-        robots = new int[3];
+        robots = new int[4];
         robots[0] = R.mipmap.robotface;
         robots[1] = R.mipmap.robotface_redeye;
         robots[2] = R.mipmap.robotface_redenm;
-//        robots[3] = R.mipmap.robotface_red;
+        robots[3] = R.mipmap.robotface_red;
 
-        words = new String[5];
-
+        words = new String[4];
+        words[0] = "banana";
+        words[1] = "desk";
+        words[2] = "Incredibly handsome Tom Cruise";
+        words[3] = "Very pretty Julia Roberts";
 
 
 
@@ -58,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        say("HI");
+        say("Oh, well slept. Camera activity is completed. Well look over ~");
 
         mTask = new TimerTask() {
             @Override
@@ -75,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         mTimer = new Timer();
-        mTimer.schedule(mTask, 0, 10000);
+        mTimer.schedule(mTask, 0, 3000);
 
 
     }
@@ -105,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClick(View v){
         changeImg();
-        say("BANANA");
+        say(words[ri]);
     }
 
     private void say(String text) {
@@ -141,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
             ri = 0;
         }
         Log.i("RI:",ri + "");
+
         int id = robots[ri];
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
