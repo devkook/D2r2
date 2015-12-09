@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onInit(int status) {
                 if(status != TextToSpeech.ERROR) {
-                    tts.setLanguage(Locale.CHINA);
+                    tts.setLanguage(Locale.US);
                     Log.i("TTS", "SET");
                 }else {
                     Log.e("TTS", "ERR");
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         mTimer = new Timer();
-        mTimer.schedule(mTask, 0, 3000);
+        mTimer.schedule(mTask, 0, 5000);
 
 
     }
@@ -105,6 +105,17 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        say("WAY?");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        say("GOOD BYE");
+    }
 
     public void onClick(View v){
         changeImg();
@@ -153,4 +164,6 @@ public class MainActivity extends AppCompatActivity {
             return getResources().getDrawable(id);
         }
     }
+
+
 }
