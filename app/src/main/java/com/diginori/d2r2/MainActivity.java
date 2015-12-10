@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             say("Look good");
         }
 
-        if(Math.abs(z) > 0 & Math.abs(z) < 10){
+        if(Math.abs(x) > 0 & Math.abs(x) < 10){
             say("The sky is always beautiful");
         }
     }
