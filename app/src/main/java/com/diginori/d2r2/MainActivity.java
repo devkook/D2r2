@@ -2,6 +2,10 @@ package com.diginori.d2r2;
 
 import android.annotation.TargetApi;
 import android.graphics.drawable.Drawable;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -17,7 +21,7 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SensorEventListener{
 
     ImageView robot_face;
     int[] robots;
@@ -27,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
     private Timer mTimer;
 
     TextToSpeech tts;
+
+    SensorManager sm;
+    Sensor s;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +53,6 @@ public class MainActivity extends AppCompatActivity {
         words[1] = "desk";
         words[2] = "Incredibly handsome Tom Cruise";
         words[3] = "Very pretty Julia Roberts";
-
-
 
         tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
@@ -80,7 +85,38 @@ public class MainActivity extends AppCompatActivity {
         mTimer = new Timer();
         mTimer.schedule(mTask, 0, 5000);
 
+        sm = (SensorManager)getSystemService(SENSOR_SERVICE);
+        s = sm.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+    }
 
+    float x,y,z;
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        synchronized (this) {
+            switch (event.sensor.getType()) {
+                case Sensor.TYPE_ORIENTATION:
+                    x = event.values[0];
+                    y = event.values[1];
+                    z = event.values[2];
+                    Log.i("SEN X", Float.toString(x));
+                    Log.i("SEN Y", Float.toString(y));
+                    Log.i("SEN Z", Float.toString(z));
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+//        SensorManager.unregisterListener(this, SensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION));
     }
 
     @Override
@@ -109,12 +145,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onPostResume() {
         super.onPostResume();
         say("WAY?");
+
+        if(s != null){
+            sm.registerListener(this,s,SensorManager.SENSOR_DELAY_GAME);
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        say("GOOD BYE");
+//        say("GOOD BYE");
     }
 
     @Override
@@ -152,6 +192,14 @@ public class MainActivity extends AppCompatActivity {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void changeImg() {
         robot_face.setBackground(getImg());
+
+        if(Math.abs(y) > 60 & Math.abs(y) < 60){
+            say("Look good");
+        }
+
+        if(Math.abs(z) > 0 & Math.abs(z) < 10){
+            say("The sky is always beautiful");
+        }
     }
 
     int ri = 0;
